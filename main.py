@@ -1,5 +1,8 @@
 from AndrosovMath.Matrices import *
 from copy import deepcopy
+import time
+from pandas import DataFrame
+
 
 def get_matrix():
     print("How do you want to read matrix? (console/file)")
@@ -33,12 +36,11 @@ def lab1():
     matrix = get_matrix()
 
     print("Original matrix: ")
-    print_matrix(matrix)
+    print(DataFrame(matrix))
 
-    matrix_copy = deepcopy(matrix)
-    print("\nStepped matrix: ")
-    bring_to_stepped_form(matrix_copy)
-    print_matrix(matrix_copy)
+    print("\nStepped form matrix: ")
+    bring_to_stepped_form_v2(matrix)
+    print(DataFrame(matrix))
 
     answers = solve_by_gauss_method(matrix)
     print("\nGot answers:")
