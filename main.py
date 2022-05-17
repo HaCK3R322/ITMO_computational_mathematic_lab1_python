@@ -4,7 +4,26 @@ import time
 from pandas import DataFrame
 
 
+def read_matrix_from_file(file_path):
+    with open(file_path, 'r') as file:
+        line = file.readline()
+        rows = int(line.split()[0])
+        columns = int(line.split()[1])
+        matrix = [[0 for x in range(columns)] for y in range(rows)]
+        if rows == 0 or columns == 0:
+            return
+
+        for i in range(rows):
+            line = file.readline()
+            for j in range(columns):
+                matrix[i][j] = int(line.split()[j])
+
+        return matrix
+
+
 def get_matrix():
+    print("PRE-BUILT ACTIONS:\n 1 - read matrix from file \"matrix.txt\"\n")
+
     print("How do you want to read matrix? (console/file)")
     answer = input(">>> ")
 
@@ -26,7 +45,11 @@ def get_matrix():
 
         return matrix
     elif answer == "file":
-        print("fuck you")
+        file_path = input("Enter a file path:\n>>> ")
+        return read_matrix_from_file(file_path)
+    elif answer == "1":
+        file_path = "matrix.txt"
+        return read_matrix_from_file(file_path)
     else:
         print("No such answer. Try again.")
         return [[0]]
@@ -34,17 +57,27 @@ def get_matrix():
 
 def lab1():
     matrix = get_matrix()
+    matrix_copy = deepcopy(matrix)
+
+    if len(matrix) == 0:
+        print("Cannot read matrix.")
+        return
 
     print("Original matrix: ")
     print(DataFrame(matrix))
 
     print("\nStepped form matrix: ")
-    bring_to_stepped_form_v2(matrix)
-    print(DataFrame(matrix))
+    bring_to_stepped_form_v2(matrix_copy)
+    print(DataFrame(matrix_copy))
 
-    answers = solve_by_gauss_method(matrix)
-    print("\nGot answers:")
+    matrix_copy= deepcopy(matrix)
+    answers = solve_by_gauss_method(matrix_copy)
+    print("\nGot answers (x0 to x" + str(len(matrix) - 1) + "):")
     print(answers)
+
+    residuals = calculate_residuals(matrix, answers)
+    print("\nCalculated residuals:")
+    print(residuals)
 
 
 if __name__ == "__main__":

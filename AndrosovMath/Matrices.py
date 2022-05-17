@@ -118,3 +118,19 @@ def solve_by_gauss_method(matrix):
         answers[i] = answer
 
     return answers
+
+
+def calculate_residuals(matrix, answers):
+    residuals = [0 for x in range(len(answers))]
+
+    for i in range(len(answers)):
+        sum_except_answer = 0
+
+        for j in range(len(matrix[i]) - 1):
+            if i != j:
+                sum_except_answer += matrix[i][j] * answers[j]
+
+        sum_except_answer = (matrix[i][len(matrix[i]) - 1] - sum_except_answer) / matrix[i][i]
+        residuals[i] = answers[i] - sum_except_answer
+
+    return residuals
