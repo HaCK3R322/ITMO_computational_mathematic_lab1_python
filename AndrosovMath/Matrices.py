@@ -101,7 +101,7 @@ def bring_to_stepped_form_v2(matrix):
 def solve_by_gauss_method(matrix):
     if not bring_to_stepped_form_v2(matrix):
         print("Cannot solve this system.")
-        return
+        return False
 
     answers = [0] * len(matrix)
     rows = len(matrix)
@@ -134,3 +134,19 @@ def calculate_residuals(matrix, answers):
         residuals[i] = answers[i] - sum_except_answer
 
     return residuals
+
+
+def calculate_determinant(matrix):
+    rows = len(matrix)
+    columns = len(matrix[0]) - 1
+
+    if rows != columns:
+        return []
+
+    determinant = matrix[0][0]
+
+    for i in range(1, rows):
+        determinant *= matrix[i][i]
+
+    return [determinant]
+

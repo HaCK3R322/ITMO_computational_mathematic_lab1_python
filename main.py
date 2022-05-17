@@ -22,7 +22,8 @@ def read_matrix_from_file(file_path):
 
 
 def get_matrix():
-    print("PRE-BUILT ACTIONS:\n 1 - read matrix from file \"matrix.txt\"\n")
+    print("PRE-BUILT ACTIONS:\n 1 - read matrix from file \"matrix.txt\"\n"
+          + "2 - read matrix from file \"not_working_matrix.txt\"\n")
 
     print("How do you want to read matrix? (console/file)")
     answer = input(">>> ")
@@ -50,6 +51,9 @@ def get_matrix():
     elif answer == "1":
         file_path = "matrix.txt"
         return read_matrix_from_file(file_path)
+    elif answer == "2":
+        file_path = "not_working_matrix.txt"
+        return read_matrix_from_file(file_path)
     else:
         print("No such answer. Try again.")
         return [[0]]
@@ -70,13 +74,20 @@ def lab1():
     bring_to_stepped_form_v2(matrix_copy)
     print(DataFrame(matrix_copy))
 
-    matrix_copy= deepcopy(matrix)
+    if len(calculate_determinant(matrix_copy)) == 0:
+        print("\nUnable to find determinant.")
+    else:
+        print("\nDeterminant = ", calculate_determinant(matrix_copy)[0])
+
+    matrix_copy = deepcopy(matrix)
     answers = solve_by_gauss_method(matrix_copy)
+    if not answers:
+        return
     print("\nGot answers (x0 to x" + str(len(matrix) - 1) + "):")
     print(answers)
 
     residuals = calculate_residuals(matrix, answers)
-    print("\nCalculated residuals:")
+    print("\nGot residuals (for x0 to x" + str(len(matrix) - 1) + "):")
     print(residuals)
 
 
